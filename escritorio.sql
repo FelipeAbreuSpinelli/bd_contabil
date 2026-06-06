@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 	`data_cadastro` timestamp NOT NULL,
     PRIMARY KEY (`id_cliente`)
 );
+ -- criação da tabela EMPRESAS
 CREATE TABLE IF NOT EXISTS `empresas` (
 	`id_empresa` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`CNPJ` varchar(20) NOT NULL UNIQUE,
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
     FOREIGN KEY (`cliente_id`) REFERENCES `clientes`(`id_cliente`) -- Para identificar que essa empresa pertence a tal cliente
     -- Relação N:1 (Várias empresas podem ter 1 cliente)
 	);
+	  -- criação da tabela FUNCIONÁRIOS
 CREATE TABLE IF NOT EXISTS `funcionarios` (
 	`id_funcionario` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`nome_funcionario` varchar(50) NOT NULL,
@@ -51,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `funcionarios` (
     FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Para identificar que o funcionários pertence a tal empresa
 	-- Relação N:1 (Vários funcionários trabalham em uma empresa)
 );
+   -- criação da tabela DEMISSÕES
 CREATE TABLE IF NOT EXISTS `demissoes` (
 	`id_demissao` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`data_demissao` date NOT NULL,
@@ -61,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `demissoes` (
     FOREIGN KEY (`funcionario_id`) REFERENCES `funcionarios`(`id_funcionario`) -- Para identificar a qual funcionário essa demissão pertence
     -- Relação 1:1 (Uma demissão pertence a 1 funcionário)
 );
+  -- criação da tabela SÓCIOS
 CREATE TABLE IF NOT EXISTS `socios` (
 	`id_socios` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`nome_socio` varchar(50) NOT NULL,
@@ -71,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `socios` (
 	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Para identificar a quais empresas esse sócio pertence
     -- Relação 1:N (1 sócio podem ter várias empresas)
 );
+  -- criação da tabela NOTAS FISCAIS
 CREATE TABLE IF NOT EXISTS `notas_fiscais` (
 	`id_nota` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`numero_nota` varchar(50) NOT NULL,
@@ -86,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `notas_fiscais` (
 	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Muitas notas fiscais podem ser emitidas por 1 empresa
     -- Relação 1:N
 );
+  -- criação da tabela IMPOSTOS
 CREATE TABLE IF NOT EXISTS `Impostos` (
 	`id_imposto` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`sigla_imposto` varchar(10) NOT NULL, 
@@ -97,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `Impostos` (
     FOREIGN KEY (`notafiscal_id`) REFERENCES `notas_fiscais`(`id_nota`) -- Uma nota pode gerar vários impostos
     -- Relação N:1
 );
+  -- criação da tabela CATEGORIA FINANCEIRA
 CREATE TABLE IF NOT EXISTS `categoria_financeira` (
 	`id_categoria` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`nome_categoria` varchar(50) NOT NULL, -- nome do que foi gasto (ex: Luz, água, aluguel)
@@ -104,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `categoria_financeira` (
 	`criacao` timestamp NOT NULL, -- Data e hora que o registro foi feito no sistema
 	PRIMARY KEY (`id_categoria`)
 );
+  -- criação da tabela CONTA BANCÁRIA
 CREATE TABLE IF NOT EXISTS `conta_bancaria` (
 	`id_conta` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`nome_banco` varchar(50) NOT NULL, -- Ex; Itaú, Nubank
@@ -112,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `conta_bancaria` (
 	`criacao` timestamp NOT NULL, -- Data e hora do cadastro no sistema bancário
 	PRIMARY KEY (`id_conta`)
 );
+  -- criação da tabela LANÇAMENTOS FINANCEIROS
 CREATE TABLE IF NOT EXISTS `lancamentos_financeiros` (
 	`id_lancamento` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`descricao` text NOT NULL,
