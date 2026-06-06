@@ -17,8 +17,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 	`numero` int NOT NULL,
 	`CEP` varchar(9) NOT NULL, -- Criado pelos correios para facilitar a entrega de produtos/correspondências em todo o brasil
 	`data_cadastro` timestamp NOT NULL,
-    PRIMARY KEY (`id_cliente`),
-    FOREIGN KEY (`CNPJ`) REFERENCES `empresas`(`CNPJ`)
+    PRIMARY KEY (`id_cliente`)
 );
 CREATE TABLE IF NOT EXISTS `empresas` (
 	`id_empresa` int AUTO_INCREMENT NOT NULL UNIQUE,
@@ -49,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `funcionarios` (
 	`FGTS` decimal(9,2) NOT NULL,-- Valor depositado mensalmente pela empresa para o trabalhador, o valor pode ser 8% ou 2%(Jovem aprendiz) do seu salário
 	`empresa_id` int NOT NULL,
 	PRIMARY KEY (`id_funcionario`),
-    FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) --Para identificar que o funcionários pertence a tal empresa
+    FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Para identificar que o funcionários pertence a tal empresa
 	-- Relação N:1 (Vários funcionários trabalham em uma empresa)
 );
 CREATE TABLE IF NOT EXISTS `demissoes` (
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `demissoes` (
 	`valor_rescisao` decimal(9,2) NOT NULL,
 	`funcionario_id` int NOT NULL UNIQUE,
 	PRIMARY KEY (`id_demissao`),
-    FOREIGN KEY (`funcionario_id`) REFERENCES `funcionarios`(`id_funcionario`) --Para identificar a qual funcionário essa demissão pertence
+    FOREIGN KEY (`funcionario_id`) REFERENCES `funcionarios`(`id_funcionario`) -- Para identificar a qual funcionário essa demissão pertence
     -- Relação 1:1 (Uma demissão pertence a 1 funcionário)
 );
 CREATE TABLE IF NOT EXISTS `socios` (
@@ -69,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `socios` (
 	`cargo` varchar(50) NOT NULL,
 	`empresa_id` int NOT NULL,
 	PRIMARY KEY (`id_socios`),
-	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) --Para identificar a quais empresas esse sócio pertence
-    --Relação 1:N (1 sócio podem ter várias empresas)
+	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Para identificar a quais empresas esse sócio pertence
+    -- Relação 1:N (1 sócio podem ter várias empresas)
 );
 CREATE TABLE IF NOT EXISTS `notas_fiscais` (
 	`id_nota` int AUTO_INCREMENT NOT NULL UNIQUE,
@@ -84,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `notas_fiscais` (
 	`forma_pagamento` varchar(40) NOT NULL,
 	`empresa_id` int NOT NULL,
 	PRIMARY KEY (`id_nota`),
-	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) --Muitas notas fiscais podem ser emitidas por 1 empresa
+	FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id_empresa`) -- Muitas notas fiscais podem ser emitidas por 1 empresa
     -- Relação 1:N
 );
 CREATE TABLE IF NOT EXISTS `Impostos` (
@@ -95,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `Impostos` (
 	`data_competencia` date NOT NULL, -- mês e o ano que a cobrança pertence
 	`notafiscal_id` int NOT NULL,
 	PRIMARY KEY (`id_imposto`),
-    FOREIGN KEY (`notafiscal_id`) REFERENCES `notas_fiscais`(`id_nota`) --Uma nota pode gerar vários impostos
+    FOREIGN KEY (`notafiscal_id`) REFERENCES `notas_fiscais`(`id_nota`) -- Uma nota pode gerar vários impostos
     -- Relação N:1
 );
 CREATE TABLE IF NOT EXISTS `categoria_financeira` (
@@ -118,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `lancamentos_financeiros` (
 	`descricao` text NOT NULL,
 	`valor_monetario` decimal(9,2) NOT NULL, -- O valor em dinheiro da movimentação
 	`tipo_lancamento` varchar(50) NOT NULL, -- Ex: Receita ou despesa
-	`status` ENUM('Pendente','Pago') NOT NULL, --Duas opções para selecionar apenas
+	`status` ENUM('Pendente','Pago') NOT NULL, -- Duas opções para selecionar apenas
 	`criacao` timestamp NOT NULL, -- Data e hora da movimentação
 	`categoria_id` int NOT NULL,
 	`conta_id` int NOT NULL,
